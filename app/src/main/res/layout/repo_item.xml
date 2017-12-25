@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="repo"
+            type="ivankuo.com.itbon2018.data.model.Repo" />
+
+    </data>
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,6 +26,7 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:scaleType="fitCenter"
+                app:imageUrl="@{repo.owner.avatarUrl}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="16dp"
+                android:text="@{repo.fullName}"
                 app:layout_constraintStart_toEndOf="@+id/ownerAvatar"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="repository name" />
@@ -37,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="8dp"
+                android:text="@{repo.description}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ownerAvatar"
                 tools:layout_editor_absoluteX="@dimen/default_margin"
@@ -50,6 +61,7 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:drawableEnd="@android:drawable/btn_star"
                 android:gravity="center"
+                android:text="@{String.valueOf(repo.stars)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="5" />
