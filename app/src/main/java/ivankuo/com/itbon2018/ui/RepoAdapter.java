@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -51,20 +49,20 @@ public class RepoAdapter extends RecyclerView.Adapter<RepoAdapter.RepoViewHolder
 
     @Override
     public int getItemCount() {
-        return items.size();
-    }
-
-    void clearItems() {
-        int size = this.items.size();
-        this.items.clear();
-        notifyItemRangeRemoved(0, size);
+        return items == null ? 0 : items.size();
     }
 
     void swapItems(List<Repo> newItems) {
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new RepoDiffCallback(this.items, newItems));
-        this.items.clear();
-        this.items.addAll(newItems);
-        result.dispatchUpdatesTo(this);
+        if (newItems == null) {
+            int oldSize = this.items.size();
+            this.items.clear();
+            notifyItemRangeRemoved(0, oldSize);
+        } else {
+            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new RepoDiffCallback(this.items, newItems));
+            this.items.clear();
+            this.items.addAll(newItems);
+            result.dispatchUpdatesTo(this);
+        }
     }
 
     private class RepoDiffCallback extends DiffUtil.Callback {
