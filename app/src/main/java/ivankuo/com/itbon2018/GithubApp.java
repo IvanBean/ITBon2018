@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package ivankuo.com.itbon2018.api;
+package ivankuo.com.itbon2018;
 
-import android.arch.lifecycle.LiveData;
+import android.app.Application;
 
-import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import timber.log.Timber;
 
-/**
- * REST API access points
- */
-public interface GithubService {
-    @GET("search/repositories")
-    LiveData<ApiResponse<RepoSearchResponse>> searchRepos(@Query("q") String query);
+public class GithubApp extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+    }
 }

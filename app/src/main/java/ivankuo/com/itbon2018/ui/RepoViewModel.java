@@ -8,10 +8,9 @@ import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableBoolean;
 import android.text.TextUtils;
 
-import java.util.List;
-
+import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.DataModel;
-import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
 
 public class RepoViewModel extends ViewModel {
@@ -20,16 +19,16 @@ public class RepoViewModel extends ViewModel {
 
     private final MutableLiveData<String> query = new MutableLiveData<>();
 
-    private final LiveData<List<Repo>> repos;
+    private final LiveData<ApiResponse<RepoSearchResponse>> repos;
 
     private DataModel dataModel;
 
     public RepoViewModel(final DataModel dataModel) {
         super();
         this.dataModel = dataModel;
-        repos = Transformations.switchMap(query, new Function<String, LiveData<List<Repo>>>() {
+        repos = Transformations.switchMap(query, new Function<String, LiveData<ApiResponse<RepoSearchResponse>>>() {
             @Override
-            public LiveData<List<Repo>> apply(String userInput) {
+            public LiveData<ApiResponse<RepoSearchResponse>> apply(String userInput) {
                 if (TextUtils.isEmpty(userInput)) {
                     return AbsentLiveData.create();
                 } else {
@@ -39,7 +38,7 @@ public class RepoViewModel extends ViewModel {
         });
     }
 
-    LiveData<List<Repo>> getRepos() {
+    LiveData<ApiResponse<RepoSearchResponse>> getRepos() {
         return repos;
     }
 

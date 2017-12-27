@@ -13,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
 import ivankuo.com.itbon2018.viewmodel.GithubViewModelFactory;
 
@@ -72,11 +74,19 @@ public class RepoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, factory).get(RepoViewModel.class);
         binding.setViewModel(viewModel);
-        viewModel.getRepos().observe(this, new Observer<List<Repo>>() {
+        viewModel.getRepos().observe(this, new Observer<ApiResponse<RepoSearchResponse>>() {
             @Override
-            public void onChanged(@Nullable List<Repo> repos) {
-                repoAdapter.swapItems(repos);
+            public void onChanged(@Nullable ApiResponse<RepoSearchResponse> response) {
                 viewModel.isLoading.set(false);
+                if (response == null) {
+                    repoAdapter.swapItems(null);
+                    return;
+                }
+                if (response.isSuccessful()) {
+                    repoAdapter.swapItems(response.body.getItems());
+                } else {
+                    Toast.makeText(getContext(), "連線發生錯誤", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
