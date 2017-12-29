@@ -49,4 +49,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 
     implementation "com.jakewharton.timber:timber:4.5.1"
+
+    // Dagger core
+    implementation "com.google.dagger:dagger:2.14.1"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.14.1"
+    // Dagger android
+    implementation "com.google.dagger:dagger-android-support:2.14.1"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.14.1"
 }
