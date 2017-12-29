@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
@@ -27,15 +30,23 @@ public class RepoFragment extends Fragment {
 
     public static final String TAG = "Repo";
 
+    @Inject
+    GithubViewModelFactory factory;
+
     private RepoFragmentBinding binding;
 
-    private GithubViewModelFactory factory = new GithubViewModelFactory();
     private RepoViewModel viewModel;
 
     private RepoAdapter repoAdapter = new RepoAdapter(new ArrayList<Repo>());
 
     public static RepoFragment newInstance() {
         return new RepoFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        AndroidSupportInjection.inject(this);
     }
 
     @Nullable

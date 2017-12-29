@@ -11,7 +11,7 @@ import ivankuo.com.itbon2018.GithubApp;
 @Component(modules = {
         AndroidSupportInjectionModule.class,
         AppModule.class,
-        BuildersModule.class})
+        ActivityBuildersModule.class})
 public interface AppComponent {
 
     @Component.Builder

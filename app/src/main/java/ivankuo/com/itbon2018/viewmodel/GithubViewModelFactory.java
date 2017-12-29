@@ -4,15 +4,20 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import ivankuo.com.itbon2018.data.DataModel;
 import ivankuo.com.itbon2018.ui.RepoViewModel;
 
+@Singleton
 public class GithubViewModelFactory implements ViewModelProvider.Factory {
 
     private DataModel dataModel;
 
-    public GithubViewModelFactory() {
-        this.dataModel = new DataModel();
+    @Inject
+    public GithubViewModelFactory(DataModel dataModel) {
+        this.dataModel = dataModel;
     }
 
     @SuppressWarnings("unchecked")
