@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
+import ivankuo.com.itbon2018.di.AppInjector;
 import ivankuo.com.itbon2018.di.DaggerAppComponent;
 import timber.log.Timber;
 
@@ -24,10 +25,7 @@ public class GithubApp extends Application implements HasActivityInjector {
         }
 
         // Dagger2
-        DaggerAppComponent.builder()
-                .application(this)
-                .build()
-                .inject(this);
+        AppInjector.init(this);
     }
 
     @Override

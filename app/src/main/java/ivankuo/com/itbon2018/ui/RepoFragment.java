@@ -24,9 +24,10 @@ import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
+import ivankuo.com.itbon2018.di.Injectable;
 import ivankuo.com.itbon2018.viewmodel.GithubViewModelFactory;
 
-public class RepoFragment extends Fragment {
+public class RepoFragment extends Fragment implements Injectable {
 
     public static final String TAG = "Repo";
 
@@ -41,12 +42,6 @@ public class RepoFragment extends Fragment {
 
     public static RepoFragment newInstance() {
         return new RepoFragment();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        AndroidSupportInjection.inject(this);
     }
 
     @Nullable
