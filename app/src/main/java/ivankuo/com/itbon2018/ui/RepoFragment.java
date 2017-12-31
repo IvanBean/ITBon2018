@@ -1,6 +1,7 @@
 package ivankuo.com.itbon2018.ui;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,20 +20,18 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import dagger.android.support.AndroidSupportInjection;
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
 import ivankuo.com.itbon2018.di.Injectable;
-import ivankuo.com.itbon2018.viewmodel.GithubViewModelFactory;
 
 public class RepoFragment extends Fragment implements Injectable {
 
     public static final String TAG = "Repo";
 
     @Inject
-    GithubViewModelFactory factory;
+    ViewModelProvider.Factory factory;
 
     private RepoFragmentBinding binding;
 

@@ -9,9 +9,8 @@ import ivankuo.com.itbon2018.util.LiveDataCallAdapterFactory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-@Module
+@Module(includes = ViewModelModule.class)
 class AppModule {
-
     @Provides
     @Singleton
     GithubService provideGithubService() {
