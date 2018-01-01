@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package ivankuo.com.itbon2018.data.model;
+package ivankuo.com.itbon2018.api;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+
+import ivankuo.com.itbon2018.data.model.Repo;
 
 /**
  * POJO to hold repo search responses. This is different from the Entity in the database because

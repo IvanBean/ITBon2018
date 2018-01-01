@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.DataModel;
-import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
+import ivankuo.com.itbon2018.api.RepoSearchResponse;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
 
 public class RepoViewModel extends ViewModel {

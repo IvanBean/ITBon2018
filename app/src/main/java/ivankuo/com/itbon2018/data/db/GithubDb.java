@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package ivankuo.com.itbon2018.api;
+package ivankuo.com.itbon2018.data.db;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Database;
+import android.arch.persistence.room.RoomDatabase;
 
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.RepoSearchResult;
 
 /**
- * REST API access points
+ * Main database description.
  */
-public interface GithubService {
-    @GET("search/repositories")
-    LiveData<ApiResponse<RepoSearchResponse>> searchRepos(@Query("q") String query);
+@Database(entities = {RepoSearchResult.class, Repo.class}, version = 1)
+public abstract class GithubDb extends RoomDatabase {
+    abstract public RepoDao repoDao();
 }

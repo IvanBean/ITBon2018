@@ -7,16 +7,19 @@ import javax.inject.Singleton;
 
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.api.GithubService;
-import ivankuo.com.itbon2018.api.RetrofitManager;
-import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
+import ivankuo.com.itbon2018.api.RepoSearchResponse;
+import ivankuo.com.itbon2018.data.db.RepoDao;
 
 @Singleton
 public class DataModel {
 
+    private RepoDao repoDao;
+
     private GithubService githubService;
 
     @Inject
-    public DataModel(GithubService githubService) {
+    public DataModel(RepoDao repoDao, GithubService githubService) {
+        this.repoDao = repoDao;
         this.githubService = githubService;
     }
 

@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
-import ivankuo.com.itbon2018.data.model.RepoSearchResponse;
+import ivankuo.com.itbon2018.api.RepoSearchResponse;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
 import ivankuo.com.itbon2018.di.Injectable;
 

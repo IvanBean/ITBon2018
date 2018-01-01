@@ -16,10 +16,19 @@
 
 package ivankuo.com.itbon2018.data.model;
 
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Using name/owner_login as primary key instead of id since name/owner_login is always available
+ * vs id is not.
+ */
+@Entity(indices = {@Index("id"), @Index("owner_login")},
+        primaryKeys = {"name", "owner_login"})
 public class Repo {
 
     public final int id;
@@ -38,6 +47,7 @@ public class Repo {
     public final int stars;
 
     @SerializedName("owner")
+    @Embedded(prefix = "owner_")
     @NonNull
     public final Owner owner;
 
