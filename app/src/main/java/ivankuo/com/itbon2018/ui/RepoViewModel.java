@@ -5,43 +5,42 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableBoolean;
 import android.text.TextUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import ivankuo.com.itbon2018.api.ApiResponse;
-import ivankuo.com.itbon2018.data.DataModel;
-import ivankuo.com.itbon2018.api.RepoSearchResponse;
+import ivankuo.com.itbon2018.data.RepoRepository;
+import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.Resource;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
 
 public class RepoViewModel extends ViewModel {
 
-    public final ObservableBoolean isLoading = new ObservableBoolean(false);
-
     private final MutableLiveData<String> query = new MutableLiveData<>();
 
-    private final LiveData<ApiResponse<RepoSearchResponse>> repos;
+    private final LiveData<Resource<List<Repo>>> repos;
 
-    private DataModel mDataModel;
+    private RepoRepository mRepoRepository;
 
     @Inject
-    public RepoViewModel(DataModel dataModel) {
+    public RepoViewModel(RepoRepository repoRepository) {
         super();
-        mDataModel = dataModel;
-        repos = Transformations.switchMap(query, new Function<String, LiveData<ApiResponse<RepoSearchResponse>>>() {
+        mRepoRepository = repoRepository;
+        repos = Transformations.switchMap(query, new Function<String, LiveData<Resource<List<Repo>>>>() {
             @Override
-            public LiveData<ApiResponse<RepoSearchResponse>> apply(String userInput) {
+            public LiveData<Resource<List<Repo>>> apply(String userInput) {
                 if (TextUtils.isEmpty(userInput)) {
                     return AbsentLiveData.create();
                 } else {
-                    return mDataModel.searchRepo(userInput);
+                    return mRepoRepository.search(userInput);
                 }
             }
         });
     }
 
-    LiveData<ApiResponse<RepoSearchResponse>> getRepos() {
+    LiveData<Resource<List<Repo>>> getRepos() {
         return repos;
     }
 

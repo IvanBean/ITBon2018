@@ -14,15 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.data.model.Repo;
-import ivankuo.com.itbon2018.api.RepoSearchResponse;
+import ivankuo.com.itbon2018.data.model.Resource;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
 import ivankuo.com.itbon2018.di.Injectable;
 
@@ -78,20 +77,12 @@ public class RepoFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, factory).get(RepoViewModel.class);
-        binding.setViewModel(viewModel);
-        viewModel.getRepos().observe(this, new Observer<ApiResponse<RepoSearchResponse>>() {
+        viewModel.getRepos().observe(this, new Observer<Resource<List<Repo>>>() {
             @Override
-            public void onChanged(@Nullable ApiResponse<RepoSearchResponse> response) {
-                viewModel.isLoading.set(false);
-                if (response == null) {
-                    repoAdapter.swapItems(null);
-                    return;
-                }
-                if (response.isSuccessful()) {
-                    repoAdapter.swapItems(response.body.getItems());
-                } else {
-                    Toast.makeText(getContext(), "連線發生錯誤", Toast.LENGTH_SHORT).show();
-                }
+            public void onChanged(@Nullable Resource<List<Repo>> resource) {
+                binding.setResource(resource);
+                binding.executePendingBindings();
+                repoAdapter.swapItems(resource.data);
             }
         });
     }
@@ -99,7 +90,6 @@ public class RepoFragment extends Fragment implements Injectable {
     private void doSearch() {
         String query = binding.edtQuery.getText().toString();
         viewModel.searchRepo(query);
-        viewModel.isLoading.set(true);
         dismissKeyboard();
     }
 
