@@ -14,6 +14,8 @@ import ivankuo.com.itbon2018.util.LiveDataCallAdapterFactory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static ivankuo.com.itbon2018.data.db.GithubDb.MIGRATION_1_2;
+
 @Module(includes = ViewModelModule.class)
 class AppModule {
     @Provides
@@ -30,7 +32,9 @@ class AppModule {
     @Provides
     @Singleton
     GithubDb provideDb(GithubApp app) {
-        return Room.databaseBuilder(app, GithubDb.class,"github.db").build();
+        return Room.databaseBuilder(app, GithubDb.class,"github.db")
+                .addMigrations(MIGRATION_1_2)
+                .build();
     }
 
     @Provides

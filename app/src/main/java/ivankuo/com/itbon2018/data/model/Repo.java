@@ -51,6 +51,8 @@ public class Repo {
     @NonNull
     public final Owner owner;
 
+    public String html_url;
+
     public Repo(int id, String name, String fullName, String description, Owner owner, int stars) {
         this.id = id;
         this.name = name;
