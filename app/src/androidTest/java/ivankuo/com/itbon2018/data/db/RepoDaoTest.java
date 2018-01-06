@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 
 import ivankuo.com.itbon2018.data.model.Owner;
 import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.util.LiveDataTestUtil;
+import ivankuo.com.itbon2018.util.TestUtil;
 
 import static ivankuo.com.itbon2018.util.LiveDataTestUtil.getValue;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,9 +28,7 @@ public class RepoDaoTest {
     public void setUp() throws Exception {
         db = Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getContext(),
                 GithubDb.class).build();
-
-        Owner owner = new Owner("foo", null, null);
-        repo = new Repo(1, "foo", "foo/bar", "desc", owner, 50);
+        repo = TestUtil.createRepo("foo", "bar", "desc");
     }
 
     @After
@@ -41,9 +41,9 @@ public class RepoDaoTest {
         // Insert repo
         db.repoDao().insert(repo);
         // Query repo
-        final Repo loaded = getValue(db.repoDao().load("foo", "foo"));
+        final Repo loaded = getValue(db.repoDao().load("foo", "bar"));
         // Assert query result
         assertThat(loaded.owner.login, is("foo"));
-        assertThat(loaded.name, is("foo"));
+        assertThat(loaded.name, is("bar"));
     }
 }
