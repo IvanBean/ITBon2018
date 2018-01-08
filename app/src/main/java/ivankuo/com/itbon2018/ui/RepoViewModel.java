@@ -5,7 +5,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.text.TextUtils;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class RepoViewModel extends ViewModel {
         repos = Transformations.switchMap(query, new Function<String, LiveData<Resource<List<Repo>>>>() {
             @Override
             public LiveData<Resource<List<Repo>>> apply(String userInput) {
-                if (TextUtils.isEmpty(userInput)) {
+                if (userInput == null || userInput.isEmpty()) {
                     return AbsentLiveData.create();
                 } else {
                     return mRepoRepository.search(userInput);
