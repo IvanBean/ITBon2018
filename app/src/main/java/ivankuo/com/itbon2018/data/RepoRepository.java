@@ -3,6 +3,8 @@ package ivankuo.com.itbon2018.data;
 import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -33,25 +35,21 @@ public class RepoRepository {
         this.githubService = githubService;
     }
 
-    public LiveData<Resource<List<Repo>>> search(final String query) {
-        return new NetworkBoundResource<List<Repo>, RepoSearchResponse>() {
+    public LiveData<Resource<PagedList<Repo>>> search(final String query) {
+        return new NetworkBoundResource<PagedList<Repo>, RepoSearchResponse>() {
             @NonNull
             @Override
-            protected LiveData<List<Repo>> loadFromDb() {
-                return Transformations.switchMap(repoDao.search(query), new Function<RepoSearchResult, LiveData<List<Repo>>>() {
+            protected LiveData<PagedList<Repo>> loadFromDb() {
+                return Transformations.switchMap(repoDao.search(query), new Function<RepoSearchResult, LiveData<PagedList<Repo>>>() {
                     @Override
-                    public LiveData<List<Repo>> apply(RepoSearchResult searchData) {
-                        if (searchData == null) {
-                            return AbsentLiveData.create();
-                        } else {
-                            return repoDao.loadOrdered(searchData.repoIds);
-                        }
+                    public LiveData<PagedList<Repo>> apply(RepoSearchResult searchData) {
+                        return new LivePagedListBuilder<>(repoDao.loadById(searchData.repoIds), 30).build();
                     }
                 });
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<Repo> data) {
+            protected boolean shouldFetch(@Nullable PagedList<Repo> data) {
                 return data == null;
             }
 

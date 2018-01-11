@@ -3,6 +3,7 @@ package ivankuo.com.itbon2018.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,7 +37,7 @@ public class RepoFragment extends Fragment implements Injectable {
 
     private RepoViewModel viewModel;
 
-    private RepoAdapter repoAdapter = new RepoAdapter(new ArrayList<Repo>());
+    private RepoAdapter repoAdapter = new RepoAdapter();
 
     public static RepoFragment newInstance() {
         return new RepoFragment();
@@ -77,12 +78,12 @@ public class RepoFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, factory).get(RepoViewModel.class);
-        viewModel.getRepos().observe(this, new Observer<Resource<List<Repo>>>() {
+        viewModel.getRepos().observe(this, new Observer<Resource<PagedList<Repo>>>() {
             @Override
-            public void onChanged(@Nullable Resource<List<Repo>> resource) {
+            public void onChanged(@Nullable Resource<PagedList<Repo>> resource) {
                 binding.setResource(resource);
                 binding.executePendingBindings();
-                repoAdapter.swapItems(resource.data);
+                repoAdapter.setList(resource.data);
             }
         });
     }
