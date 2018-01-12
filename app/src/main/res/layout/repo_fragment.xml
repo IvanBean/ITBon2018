@@ -10,8 +10,8 @@
         <import type="ivankuo.com.itbon2018.data.model.Status" />
 
         <variable
-            name="resource"
-            type="ivankuo.com.itbon2018.data.model.Resource" />
+            name="viewModel"
+            type="ivankuo.com.itbon2018.ui.RepoViewModel" />
 
     </data>
 
@@ -58,7 +58,7 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:visibleGone="@{resource.status == Status.LOADING}"
+            app:visibleGone="@{viewModel.repos.status == Status.LOADING}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

@@ -77,11 +77,11 @@ public class RepoFragment extends Fragment implements Injectable {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, factory).get(RepoViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
         viewModel.getRepos().observe(this, new Observer<Resource<List<Repo>>>() {
             @Override
             public void onChanged(@Nullable Resource<List<Repo>> resource) {
-                binding.setResource(resource);
-                binding.executePendingBindings();
                 repoAdapter.swapItems(resource.data);
             }
         });
