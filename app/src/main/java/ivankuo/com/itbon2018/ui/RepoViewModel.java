@@ -10,8 +10,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import ivankuo.com.itbon2018.data.RepoRepository;
 import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.RepoSearchResult;
 import ivankuo.com.itbon2018.data.model.Resource;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
 
@@ -45,5 +48,17 @@ public class RepoViewModel extends ViewModel {
 
     void searchRepo(String userInput) {
         query.setValue(userInput);
+    }
+
+    Flowable<RepoSearchResult> rxSearch(String query) {
+        return mRepoRepository.rxSearch(query);
+    }
+
+    Flowable<List<Repo>> rxLoadById(List<Integer> repoIds) {
+        return mRepoRepository.rxLoadById(repoIds);
+    }
+
+    Maybe<RepoSearchResult> rxSearchSync(String query) {
+        return mRepoRepository.rxSearchSync(query);
     }
 }

@@ -30,6 +30,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.RepoSearchResult;
 
@@ -86,4 +88,13 @@ public abstract class RepoDao {
 
     @Query("SELECT * FROM RepoSearchResult WHERE query = :query")
     public abstract RepoSearchResult findSearchResult(String query);
+
+    @Query("SELECT * FROM RepoSearchResult WHERE query = :query")
+    public abstract Flowable<RepoSearchResult> rxSearch(String query);
+
+    @Query("SELECT * FROM Repo WHERE id in (:repoIds)")
+    public abstract Flowable<List<Repo>> rxLoadById(List<Integer> repoIds);
+
+    @Query("SELECT * FROM RepoSearchResult WHERE query = :query")
+    public abstract Maybe<RepoSearchResult> rxSearchSync(String query);
 }

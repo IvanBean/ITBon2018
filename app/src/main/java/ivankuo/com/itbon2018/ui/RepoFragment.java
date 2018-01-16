@@ -15,12 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import org.reactivestreams.Publisher;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 import ivankuo.com.itbon2018.data.model.Repo;
+import ivankuo.com.itbon2018.data.model.RepoSearchResult;
 import ivankuo.com.itbon2018.data.model.Resource;
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding;
 import ivankuo.com.itbon2018.di.Injectable;
@@ -91,6 +98,41 @@ public class RepoFragment extends Fragment implements Injectable {
         String query = binding.edtQuery.getText().toString();
         viewModel.searchRepo(query);
         dismissKeyboard();
+    }
+
+    private void rxDoSearch() {
+        String query = binding.edtQuery.getText().toString();
+        viewModel.rxSearch(query)
+                .flatMap(new Function<RepoSearchResult, Publisher<List<Repo>>>() {
+                    @Override
+                    public Publisher<List<Repo>> apply(RepoSearchResult result) throws Exception {
+                        return viewModel.rxLoadById(result.repoIds);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSubscriber<List<Repo>>() {
+                    @Override
+                    public void onNext(List<Repo> repos) {
+                        repoAdapter.swapItems(repos);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+        dismissKeyboard();
+    }
+
+    private void syncQueryExample() {
+        RepoSearchResult result = viewModel.rxSearchSync("android")
+                .subscribeOn(Schedulers.io())
+                .blockingGet();
     }
 
     private void dismissKeyboard() {

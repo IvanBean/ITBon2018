@@ -11,6 +11,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.api.GithubService;
 import ivankuo.com.itbon2018.api.RepoSearchResponse;
@@ -71,5 +73,17 @@ public class RepoRepository {
                 repoDao.insert(repoSearchResult);
             }
         }.asLiveData();
+    }
+
+    public Flowable<RepoSearchResult> rxSearch(String query) {
+        return repoDao.rxSearch(query);
+    }
+
+    public Flowable<List<Repo>> rxLoadById(List<Integer> repoIds) {
+        return repoDao.rxLoadById(repoIds);
+    }
+
+    public Maybe<RepoSearchResult> rxSearchSync(String query) {
+        return repoDao.rxSearchSync(query);
     }
 }
