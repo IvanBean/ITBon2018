@@ -11,6 +11,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import ivankuo.com.itbon2018.api.ApiResponse;
 import ivankuo.com.itbon2018.api.GithubService;
 import ivankuo.com.itbon2018.api.RepoSearchResponse;
@@ -18,7 +20,9 @@ import ivankuo.com.itbon2018.data.db.RepoDao;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.RepoSearchResult;
 import ivankuo.com.itbon2018.data.model.Resource;
+import ivankuo.com.itbon2018.data.model.User;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
+import retrofit2.Response;
 
 @Singleton
 public class RepoRepository {
@@ -71,5 +75,13 @@ public class RepoRepository {
                 repoDao.insert(repoSearchResult);
             }
         }.asLiveData();
+    }
+
+    public Observable<Response<RepoSearchResponse>> searchRepoRX(String query) {
+        return githubService.searchReposRX(query);
+    }
+
+    public Observable<Response<User>> getUser(String login) {
+        return githubService.getUser(login);
     }
 }

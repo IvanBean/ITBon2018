@@ -10,10 +10,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import ivankuo.com.itbon2018.api.RepoSearchResponse;
 import ivankuo.com.itbon2018.data.RepoRepository;
 import ivankuo.com.itbon2018.data.model.Repo;
 import ivankuo.com.itbon2018.data.model.Resource;
+import ivankuo.com.itbon2018.data.model.User;
 import ivankuo.com.itbon2018.util.AbsentLiveData;
+import retrofit2.Response;
 
 public class RepoViewModel extends ViewModel {
 
@@ -21,19 +26,19 @@ public class RepoViewModel extends ViewModel {
 
     public final LiveData<Resource<List<Repo>>> repos;
 
-    private RepoRepository mRepoRepository;
+    private RepoRepository repository;
 
     @Inject
     public RepoViewModel(RepoRepository repoRepository) {
         super();
-        mRepoRepository = repoRepository;
+        repository = repoRepository;
         repos = Transformations.switchMap(query, new Function<String, LiveData<Resource<List<Repo>>>>() {
             @Override
             public LiveData<Resource<List<Repo>>> apply(String userInput) {
                 if (userInput == null || userInput.isEmpty()) {
                     return AbsentLiveData.create();
                 } else {
-                    return mRepoRepository.search(userInput);
+                    return repository.search(userInput);
                 }
             }
         });
@@ -45,5 +50,13 @@ public class RepoViewModel extends ViewModel {
 
     void searchRepo(String userInput) {
         query.setValue(userInput);
+    }
+
+    Observable<Response<RepoSearchResponse>> searchRepoRX(String query) {
+        return repository.searchRepoRX(query);
+    }
+
+    Observable<Response<User>> getUser(String login) {
+        return repository.getUser(login);
     }
 }

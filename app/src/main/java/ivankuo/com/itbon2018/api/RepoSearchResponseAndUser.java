@@ -16,26 +16,14 @@
 
 package ivankuo.com.itbon2018.api;
 
-import android.arch.lifecycle.LiveData;
-
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import ivankuo.com.itbon2018.data.model.User;
-import retrofit2.Response;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
-/**
- * REST API access points
- */
-public interface GithubService {
-    @GET("search/repositories")
-    LiveData<ApiResponse<RepoSearchResponse>> searchRepos(@Query("q") String query);
+public class RepoSearchResponseAndUser {
+    public RepoSearchResponse repoSearchResponse;
+    public User user;
 
-    @GET("search/repositories")
-    Observable<Response<RepoSearchResponse>> searchReposRX(@Query("q") String query);
-
-    @GET("users/{login}")
-    Observable<Response<User>> getUser(@Path("login") String login);
+    public RepoSearchResponseAndUser(RepoSearchResponse repoSearchResponse, User user) {
+        this.repoSearchResponse = repoSearchResponse;
+        this.user = user;
+    }
 }
