@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -27,9 +28,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            manifestPlaceholders = [crashlyticsEnabled:"false"]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            manifestPlaceholders = [crashlyticsEnabled:"true"]
         }
     }
 
@@ -90,4 +96,10 @@ dependencies {
 
     // Gson, to prevent different gson version between libraries.
     implementation 'com.google.code.gson:gson:2.8.2'
+
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
+    compile 'com.google.firebase:firebase-core:11.8.0'
 }
+apply plugin: 'com.google.gms.google-services'
