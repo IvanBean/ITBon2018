@@ -43,7 +43,7 @@ public class RepoDaoTest {
         // Query repo
         final Repo loaded = getValue(db.repoDao().load("foo", "bar"));
         // Assert query result
-        assertThat(loaded.owner.login, is("foo"));
-        assertThat(loaded.name, is("bar"));
+        assertThat(loaded.getOwner().getLogin(), is("foo"));
+        assertThat(loaded.getName(), is("bar"));
     }
 }

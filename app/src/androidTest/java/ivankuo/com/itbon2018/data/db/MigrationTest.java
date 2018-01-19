@@ -46,7 +46,7 @@ public class MigrationTest {
 
         // Re-open the database with version 2 and provide
         // MIGRATION_1_2 as the migration process.
-        db = testHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, MIGRATION_1_2);
+        db = testHelper.runMigrationsAndValidate(TEST_DB_NAME, 2, true, Companion.getMIGRATION_1_2());
 
         // MigrationTestHelper automatically verifies the schema changes,
         // but you need to validate that the data was migrated properly.
@@ -54,8 +54,8 @@ public class MigrationTest {
         // open the db with Room.
         GithubDb githubDb = getMigratedRoomDatabase();
         final Repo loaded = getValue(githubDb.repoDao().load("foo_login", "foo_name"));
-        assertThat(loaded.owner.login, is("foo_login"));
-        assertThat(loaded.name, is("foo_name"));
+        assertThat(loaded.getOwner().getLogin(), is("foo_login"));
+        assertThat(loaded.getName(), is("foo_name"));
     }
 
     private void insertRepo(String name, String owner_login, SupportSQLiteDatabase db) {
@@ -71,7 +71,7 @@ public class MigrationTest {
     private GithubDb getMigratedRoomDatabase() {
         GithubDb database = Room.databaseBuilder(InstrumentationRegistry.getTargetContext(),
                 GithubDb.class, TEST_DB_NAME)
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(Companion.getMIGRATION_1_2())
                 .build();
         // close the database and release any stream resources when the test finishes
         testHelper.closeWhenFinished(database);

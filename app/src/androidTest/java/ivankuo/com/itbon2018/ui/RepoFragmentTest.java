@@ -59,7 +59,7 @@ public class RepoFragmentTest {
         RepoFragment repoFragment = new RepoFragment();
         viewModel = mock(RepoViewModel.class);
         when(viewModel.getRepos()).thenReturn(repos);
-        repoFragment.factory = ViewModelUtil.createFor(viewModel);
+        repoFragment.setFactory(ViewModelUtil.createFor(viewModel));
         activityRule.getActivity().setFragment(repoFragment);
     }
 
@@ -69,14 +69,14 @@ public class RepoFragmentTest {
         onView(withId(R.id.edtQuery)).perform(typeText("foo"));
         onView(withId(R.id.btnSearch)).perform(click());
         verify(viewModel).searchRepo("foo");
-        repos.postValue(Resource.<List<Repo>>loading(null));
+        repos.postValue(Resource.Companion.<List<Repo>>loading(null));
         onView(withId(R.id.progressBar)).check(matches(isDisplayed()));
     }
 
     @Test
     public void loadResults() {
         Repo repo = TestUtil.createRepo("foo", "bar", "desc");
-        repos.postValue(Resource.success(Arrays.asList(repo)));
+        repos.postValue(Resource.Companion.success(Arrays.asList(repo)));
         onView(listMatcher().atPosition(0)).check(matches(hasDescendant(withText("foo/bar"))));
         onView(withId(R.id.progressBar)).check(matches(not(isDisplayed())));
     }

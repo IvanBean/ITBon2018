@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "d25728123441b0b98dc74022deda9ceb",
+    "identityHash": "18ca6c9a2a644cb83f3f7a57d6cf1e6f",
     "entities": [
       {
         "tableName": "RepoSearchResult",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT NOT NULL, `repoIds` TEXT, `totalCount` INTEGER NOT NULL, PRIMARY KEY(`query`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`query` TEXT NOT NULL, `repoIds` TEXT NOT NULL, `totalCount` INTEGER, PRIMARY KEY(`query`))",
         "fields": [
           {
             "fieldPath": "query",
@@ -18,13 +18,13 @@
             "fieldPath": "repoIds",
             "columnName": "repoIds",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "totalCount",
             "columnName": "totalCount",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -125,7 +125,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d25728123441b0b98dc74022deda9ceb\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"18ca6c9a2a644cb83f3f7a57d6cf1e6f\")"
     ]
   }
 }
