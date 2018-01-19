@@ -17,10 +17,9 @@ import java.util.ArrayList
 
 import javax.inject.Inject
 
-import ivankuo.com.itbon2018.data.model.Repo
-import ivankuo.com.itbon2018.data.model.Resource
 import ivankuo.com.itbon2018.databinding.RepoFragmentBinding
 import ivankuo.com.itbon2018.di.Injectable
+import kotlinx.android.synthetic.main.repo_fragment.*
 
 class RepoFragment : Fragment(), Injectable {
 
@@ -44,8 +43,12 @@ class RepoFragment : Fragment(), Injectable {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = RepoFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.edtQuery.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        edtQuery.setOnKeyListener(View.OnKeyListener { view, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 doSearch()
                 return@OnKeyListener true
@@ -53,13 +56,11 @@ class RepoFragment : Fragment(), Injectable {
             false
         })
 
-        binding.btnSearch.setOnClickListener { doSearch() }
+        btnSearch.setOnClickListener { doSearch() }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context,
+        recyclerView.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.VERTICAL, false)
-        binding.recyclerView.adapter = repoAdapter
-
-        return binding.root
+        recyclerView.adapter = repoAdapter
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,7 +72,7 @@ class RepoFragment : Fragment(), Injectable {
     }
 
     private fun doSearch() {
-        val query = binding.edtQuery.text.toString()
+        val query = edtQuery.text.toString()
         viewModel.searchRepo(query)
         dismissKeyboard()
     }
