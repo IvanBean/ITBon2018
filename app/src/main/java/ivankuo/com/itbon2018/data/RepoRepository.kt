@@ -26,7 +26,7 @@ constructor(private val repoDao: RepoDao, private val githubService: GithubServi
                     if (searchData == null) {
                         AbsentLiveData.create()
                     } else {
-                        repoDao.loadOrdered(searchData.repoIds)
+                        repoDao.loadOrdered(searchData.repoIds!!)
                     }
                 }
             }

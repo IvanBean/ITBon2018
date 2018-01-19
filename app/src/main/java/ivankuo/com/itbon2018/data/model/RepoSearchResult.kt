@@ -26,5 +26,5 @@ import ivankuo.com.itbon2018.data.db.GithubTypeConverters
 @TypeConverters(GithubTypeConverters::class)
 class RepoSearchResult(@field:PrimaryKey
                        val query: String,
-                       val repoIds: List<Int>,
-                       val totalCount: Int?)
+                       val repoIds: List<Int>?,
+                       val totalCount: Int)

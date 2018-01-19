@@ -31,7 +31,7 @@ class GithubTypeConverters {
     }
 
     @TypeConverter
-    fun intListToString(ints: List<Int>): String? {
+    fun intListToString(ints: List<Int>?): String? {
         return joinIntoString(ints)
     }
 

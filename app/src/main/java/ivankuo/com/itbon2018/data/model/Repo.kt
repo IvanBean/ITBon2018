@@ -30,14 +30,14 @@ import com.google.gson.annotations.SerializedName
         primaryKeys = ["name", "owner_login"])
 class Repo(val id: Int,
            @field:SerializedName("name")
-           val name: String = "",
+           val name: String,
            @field:SerializedName("full_name")
            val fullName: String? = "",
            @field:SerializedName("description")
            val description: String? = "",
            @field:SerializedName("stargazers_count")
-           val stars: Int?,
+           val stars: Int,
+           var html_url: String? = "",
            @field:SerializedName("owner")
            @field:Embedded(prefix = "owner_")
-           val owner: Owner,
-           var html_url: String? = "")
+           val owner: Owner)
